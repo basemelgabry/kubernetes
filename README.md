@@ -2,7 +2,10 @@
 # cd kubernetes
 # sh create.sh
 
-#######################
+##################TEST#####
+ aws configure
+ aws sts get-caller-identity
+#########################
 # Deleting an Amazon EKS cluster https://docs.aws.amazon.com/eks/latest/userguide/delete-cluster.html
 kubectl get svc --all-namespaces
 kubectl delete svc <service-name>
