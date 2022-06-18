@@ -3,13 +3,9 @@
 ## Downlod Files from my github
 # git clone -b game-2048 git@github.com:basemelgabry/kubernetes.git
 
-
-
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 read -p " Ready to Create EKS cluster ? (yes=1/no=2) " yn
-
-
 
     case $yn in
 
@@ -29,9 +25,8 @@ eksctl create cluster --name BasClusterB --node-type t2.large --nodes 3 --nodes-
 sleep 30
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
+
 read -p " Ready to Get EKS Cluster service ? (yes=1/no=2) " yn
-
-
 
     case $yn in
 
@@ -51,9 +46,8 @@ eksctl get cluster --name BasClusterB --region us-east-1
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
+
 read -p " Ready to  Create IAM OIDC provider ? (yes=1/no=2) " yn
-
-
 
     case $yn in
 
@@ -74,9 +68,8 @@ eksctl utils associate-iam-oidc-provider --region us-east-1 --cluster BasCluster
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
+
 read -p " Ready to Create an IAM policy called ? (yes=1/no=2) " yn
-
-
 
     case $yn in
 
@@ -88,6 +81,7 @@ read -p " Ready to Create an IAM policy called ? (yes=1/no=2) " yn
 		exit 3;;
 
     esac
+
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 
@@ -98,9 +92,8 @@ aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
+
 read -p " Ready to Create a IAM role and ServiceAccount ? (yes=1/no=2) " yn
-
-
 
     case $yn in
 
@@ -120,9 +113,8 @@ eksctl create iamserviceaccount --cluster BasClusterB --namespace kube-system --
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
+
 read -p " Ready to Install the TargetGroupBinding CRDs ? (yes=1/no=2) " yn
-
-
 
     case $yn in
 
@@ -134,6 +126,7 @@ read -p " Ready to Install the TargetGroupBinding CRDs ? (yes=1/no=2) " yn
 		exit 3;;
 
     esac
+
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 
@@ -141,9 +134,8 @@ read -p " Ready to Install the TargetGroupBinding CRDs ? (yes=1/no=2) " yn
 kubectl apply -k github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=master
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
+
 read -p " Ready to get crd? (yes=1/no=2) " yn
-
-
 
     case $yn in
 
@@ -155,6 +147,7 @@ read -p " Ready to get crd? (yes=1/no=2) " yn
 		exit 3;;
 
     esac
+
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 kubectl get crd
@@ -163,8 +156,6 @@ kubectl get crd
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 read -p " Ready to Deploy the Helm chart ? (yes=1/no=2) " yn
 
-
-
     case $yn in
 
         1 ) echo ok, we will proceed;;
@@ -175,6 +166,7 @@ read -p " Ready to Deploy the Helm chart ? (yes=1/no=2) " yn
 		exit 3;;
 
     esac
+
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 
@@ -183,9 +175,8 @@ helm repo add eks https://aws.github.io/eks-charts
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
+
 read -p " Ready to Configure AWS ALB  ? (yes=1/no=2) " yn
-
-
 
     case $yn in
 
@@ -197,6 +188,7 @@ read -p " Ready to Configure AWS ALB  ? (yes=1/no=2) " yn
 		exit 3;;
 
     esac
+
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 ## Configure AWS ALB (Apllication Load Balancer) to sit infront of Ingress
@@ -205,9 +197,8 @@ helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller -n
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
+
 read -p " Ready to status deployment ? (yes=1/no=2) " yn
-
-
 
     case $yn in
 
@@ -226,9 +217,8 @@ kubectl -n kube-system rollout status deployment aws-load-balancer-controller
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
+
 read -p " Ready to Deploy Sample Application ? (yes=1/no=2) " yn
-
-
 
     case $yn in
 
@@ -240,6 +230,7 @@ read -p " Ready to Deploy Sample Application ? (yes=1/no=2) " yn
 		exit 3;;
 
     esac
+
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 ## Deploy Sample Application
@@ -249,9 +240,8 @@ kubectl apply -f  ingress-game-2048.yaml
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
+
 read -p " Ready to Verify Ingress ? (yes=1/no=2) " yn
-
-
 
     case $yn in
 
@@ -263,6 +253,7 @@ read -p " Ready to Verify Ingress ? (yes=1/no=2) " yn
 		exit 3;;
 
     esac
+
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 ## Verify Ingress
@@ -270,9 +261,8 @@ kubectl get ingress/ingress-2048 -n game-2048
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
+
 read -p " Ready to  Get Ingress URL ? (yes=1/no=2) " yn
-
-
 
     case $yn in
 
@@ -284,6 +274,7 @@ read -p " Ready to  Get Ingress URL ? (yes=1/no=2) " yn
 		exit 3;;
 
     esac
+
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 ## Get Ingress URL
@@ -292,9 +283,8 @@ cat game-2048.txt
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
+
 read -p " Ready to Get EKS Pod data ? (yes=1/no=2) " yn
-
-
 
     case $yn in
 
@@ -306,6 +296,7 @@ read -p " Ready to Get EKS Pod data ? (yes=1/no=2) " yn
 		exit 3;;
 
     esac
+
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 ## Get EKS Pod data.
@@ -315,9 +306,8 @@ kubectl get pods --all-namespaces
 #################### Nignx #####################
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
+
 read -p " Ready to Deploy Sample Application ? (yes=1/no=2) " yn
-
-
 
     case $yn in
 
@@ -329,6 +319,7 @@ read -p " Ready to Deploy Sample Application ? (yes=1/no=2) " yn
 		exit 3;;
 
     esac
+
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 ## Deploy Sample Application
@@ -339,9 +330,8 @@ kubectl apply -f  ingress-nginx.yaml
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
+
 read -p " Ready to Verify Ingress ? (yes=1/no=2) " yn
-
-
 
     case $yn in
 
