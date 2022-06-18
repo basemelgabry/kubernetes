@@ -1,6 +1,6 @@
 # git clone -b game-2048-nginx-full-github https://github.com/basemelgabry/kubernetes.git
 # cd kubernetes
-# sh creat.sh
+# sh create.sh
 
 #######################
 # Deleting an Amazon EKS cluster https://docs.aws.amazon.com/eks/latest/userguide/delete-cluster.html
