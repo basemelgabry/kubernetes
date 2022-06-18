@@ -1,91 +1,93 @@
 #!/bin/bash
 
 ## Downlod Files from my github
-# git clone -b game-2048-nginx-full-github https://github.com/basemelgabry/kubernetes.git
-# cd kubernetes
-# sh creat.sh
+# git clone -b game-2048 git@github.com:basemelgabry/kubernetes.git
 
 
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
-echo " Ready to Create EKS cluster ?"
+read -p " Ready to Create EKS cluster ? (yes=1/no=2) " yn
 
-select yn in "Yes" "No"; do
+
 
     case $yn in
 
-        Yes ) make install; break;;
+        1 ) echo ok, we will proceed;;
 
-        No ) exit;;
+        2 ) echo exiting...;
+		exit;;
+	* ) echo invalid response;
+		exit 3;;
 
     esac
-
-done
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 
 ## Create EKS cluster
-eksctl create cluster --name BasClusterC --node-type t2.large --nodes 3 --nodes-min 3 --nodes-max 5 --region us-east-1 --zones=us-east-1a,us-east-1b,us-east-1d
+eksctl create cluster --name BasClusterB --node-type t2.large --nodes 3 --nodes-min 3 --nodes-max 5 --region us-east-1 --zones=us-east-1a,us-east-1b,us-east-1d
 sleep 30
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
-echo " Ready to Get EKS Cluster service ?"
+read -p " Ready to Get EKS Cluster service ? (yes=1/no=2) " yn
 
-select yn in "Yes" "No"; do
+
 
     case $yn in
 
-        Yes ) make install; break;;
+        1 ) echo ok, we will proceed;;
 
-        No ) exit;;
+        2 ) echo exiting...;
+		exit;;
+	* ) echo invalid response;
+		exit 3;;
 
     esac
-
-done
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 
 ## Get EKS Cluster service
-eksctl get cluster --name BasClusterC --region us-east-1
+eksctl get cluster --name BasClusterB --region us-east-1
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
-echo " Ready to  Create IAM OIDC provider ?"
+read -p " Ready to  Create IAM OIDC provider ? (yes=1/no=2) " yn
 
-select yn in "Yes" "No"; do
+
 
     case $yn in
 
-        Yes ) make install; break;;
+        1 ) echo ok, we will proceed;;
 
-        No ) exit;;
+        2 ) echo exiting...;
+		exit;;
+	* ) echo invalid response;
+		exit 3;;
 
     esac
-
-done
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 
 
 ## Create IAM OIDC provider
-eksctl utils associate-iam-oidc-provider --region us-east-1 --cluster BasClusterC --approve
+eksctl utils associate-iam-oidc-provider --region us-east-1 --cluster BasClusterB --approve
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
-echo " Ready to Create an IAM policy called ?"
+read -p " Ready to Create an IAM policy called ? (yes=1/no=2) " yn
 
-select yn in "Yes" "No"; do
+
 
     case $yn in
 
-        Yes ) make install; break;;
+        1 ) echo ok, we will proceed;;
 
-        No ) exit;;
+        2 ) echo exiting...;
+		exit;;
+	* ) echo invalid response;
+		exit 3;;
 
     esac
-
-done
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 
@@ -96,40 +98,42 @@ aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
-echo " Ready to Create a IAM role and ServiceAccount ?"
+read -p " Ready to Create a IAM role and ServiceAccount ? (yes=1/no=2) " yn
 
-select yn in "Yes" "No"; do
+
 
     case $yn in
 
-        Yes ) make install; break;;
+        1 ) echo ok, we will proceed;;
 
-        No ) exit;;
+        2 ) echo exiting...;
+		exit;;
+	* ) echo invalid response;
+		exit 3;;
 
     esac
-
-done
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 
 ## Create a IAM role and ServiceAccount
-eksctl create iamserviceaccount --cluster BasClusterC --namespace kube-system --name aws-load-balancer-controller --attach-policy-arn arn:aws:iam::411218437052:policy/AWSLoadBalancerControllerIAMPolicy --override-existing-serviceaccounts --approve
+eksctl create iamserviceaccount --cluster BasClusterB --namespace kube-system --name aws-load-balancer-controller --attach-policy-arn arn:aws:iam::411218437052:policy/AWSLoadBalancerControllerIAMPolicy --override-existing-serviceaccounts --approve
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
-echo " Ready to Install the TargetGroupBinding CRDs ?"
+read -p " Ready to Install the TargetGroupBinding CRDs ? (yes=1/no=2) " yn
 
-select yn in "Yes" "No"; do
+
 
     case $yn in
 
-        Yes ) make install; break;;
+        1 ) echo ok, we will proceed;;
 
-        No ) exit;;
+        2 ) echo exiting...;
+		exit;;
+	* ) echo invalid response;
+		exit 3;;
 
     esac
-
-done
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 
@@ -137,38 +141,40 @@ done
 kubectl apply -k github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=master
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
-echo " Ready to get crd?"
+read -p " Ready to get crd? (yes=1/no=2) " yn
 
-select yn in "Yes" "No"; do
+
 
     case $yn in
 
-        Yes ) make install; break;;
+        1 ) echo ok, we will proceed;;
 
-        No ) exit;;
+        2 ) echo exiting...;
+		exit;;
+	* ) echo invalid response;
+		exit 3;;
 
     esac
-
-done
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 kubectl get crd
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
-echo " Ready to Deploy the Helm chart ?"
+read -p " Ready to Deploy the Helm chart ? (yes=1/no=2) " yn
 
-select yn in "Yes" "No"; do
+
 
     case $yn in
 
-        Yes ) make install; break;;
+        1 ) echo ok, we will proceed;;
 
-        No ) exit;;
+        2 ) echo exiting...;
+		exit;;
+	* ) echo invalid response;
+		exit 3;;
 
     esac
-
-done
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 
@@ -177,40 +183,42 @@ helm repo add eks https://aws.github.io/eks-charts
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
-echo " Ready to Configure AWS ALB  ?"
+read -p " Ready to Configure AWS ALB  ? (yes=1/no=2) " yn
 
-select yn in "Yes" "No"; do
+
 
     case $yn in
 
-        Yes ) make install; break;;
+        1 ) echo ok, we will proceed;;
 
-        No ) exit;;
+        2 ) echo exiting...;
+		exit;;
+	* ) echo invalid response;
+		exit 3;;
 
     esac
-
-done
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 ## Configure AWS ALB (Apllication Load Balancer) to sit infront of Ingress
-#helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=BasClusterC --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller --set image.tag="v2.2.0"
-helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=BasClusterC --set serviceAccount.create=false --set region=us-east-1 --set serviceAccount.name=aws-load-balancer-controller
+#helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=BasClusterB --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller --set image.tag="v2.2.0"
+helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=BasClusterB --set serviceAccount.create=false --set region=us-east-1 --set serviceAccount.name=aws-load-balancer-controller
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
-echo " Ready to status deployment ?"
+read -p " Ready to status deployment ? (yes=1/no=2) " yn
 
-select yn in "Yes" "No"; do
+
 
     case $yn in
 
-        Yes ) make install; break;;
+        1 ) echo ok, we will proceed;;
 
-        No ) exit;;
+        2 ) echo exiting...;
+		exit;;
+	* ) echo invalid response;
+		exit 3;;
 
     esac
-
-done
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 
@@ -218,19 +226,20 @@ kubectl -n kube-system rollout status deployment aws-load-balancer-controller
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
-echo " Ready to Deploy Sample Application ?"
+read -p " Ready to Deploy Sample Application ? (yes=1/no=2) " yn
 
-select yn in "Yes" "No"; do
+
 
     case $yn in
 
-        Yes ) make install; break;;
+        1 ) echo ok, we will proceed;;
 
-        No ) exit;;
+        2 ) echo exiting...;
+		exit;;
+	* ) echo invalid response;
+		exit 3;;
 
     esac
-
-done
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 ## Deploy Sample Application
@@ -240,19 +249,20 @@ kubectl apply -f  ingress-game-2048.yaml
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
-echo " Ready to Verify Ingress ?"
+read -p " Ready to Verify Ingress ? (yes=1/no=2) " yn
 
-select yn in "Yes" "No"; do
+
 
     case $yn in
 
-        Yes ) make install; break;;
+        1 ) echo ok, we will proceed;;
 
-        No ) exit;;
+        2 ) echo exiting...;
+		exit;;
+	* ) echo invalid response;
+		exit 3;;
 
     esac
-
-done
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 ## Verify Ingress
@@ -260,19 +270,20 @@ kubectl get ingress/ingress-2048 -n game-2048
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
-echo " Ready to  Get Ingress URL ?"
+read -p " Ready to  Get Ingress URL ? (yes=1/no=2) " yn
 
-select yn in "Yes" "No"; do
+
 
     case $yn in
 
-        Yes ) make install; break;;
+        1 ) echo ok, we will proceed;;
 
-        No ) exit;;
+        2 ) echo exiting...;
+		exit;;
+	* ) echo invalid response;
+		exit 3;;
 
     esac
-
-done
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 ## Get Ingress URL
@@ -281,19 +292,20 @@ cat game-2048.txt
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
-echo " Ready to Get EKS Pod data ?"
+read -p " Ready to Get EKS Pod data ? (yes=1/no=2) " yn
 
-select yn in "Yes" "No"; do
+
 
     case $yn in
 
-        Yes ) make install; break;;
+        1 ) echo ok, we will proceed;;
 
-        No ) exit;;
+        2 ) echo exiting...;
+		exit;;
+	* ) echo invalid response;
+		exit 3;;
 
     esac
-
-done
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 ## Get EKS Pod data.
@@ -303,42 +315,44 @@ kubectl get pods --all-namespaces
 #################### Nignx #####################
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
-echo " Ready to Deploy Sample Application ?"
+read -p " Ready to Deploy Sample Application ? (yes=1/no=2) " yn
 
-select yn in "Yes" "No"; do
+
 
     case $yn in
 
-        Yes ) make install; break;;
+        1 ) echo ok, we will proceed;;
 
-        No ) exit;;
+        2 ) echo exiting...;
+		exit;;
+	* ) echo invalid response;
+		exit 3;;
 
     esac
-
-done
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 ## Deploy Sample Application
 
-kubectl apply -f  deployment-nignx.yaml
-kubectl apply -f  service-nignx.yaml
-kubectl apply -f  ingress-nignx.yaml
+kubectl apply -f  deployment-nginx.yaml
+kubectl apply -f  service-nginx.yaml
+kubectl apply -f  ingress-nginx.yaml
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
-echo " Ready to Verify Ingress ?"
+read -p " Ready to Verify Ingress ? (yes=1/no=2) " yn
 
-select yn in "Yes" "No"; do
+
 
     case $yn in
 
-        Yes ) make install; break;;
+        1 ) echo ok, we will proceed;;
 
-        No ) exit;;
+        2 ) echo exiting...;
+		exit;;
+	* ) echo invalid response;
+		exit 3;;
 
     esac
-
-done
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 ## Verify Ingress
@@ -346,19 +360,20 @@ kubectl get ingress/nginx-ingress -n nginx-ns
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
-echo " Ready to Get Ingress URL ?"
+read -p " Ready to Get Ingress URL ? (yes=1/no=2) " yn
 
-select yn in "Yes" "No"; do
+
 
     case $yn in
 
-        Yes ) make install; break;;
+        1 ) echo ok, we will proceed;;
 
-        No ) exit;;
+        2 ) echo exiting...;
+		exit;;
+	* ) echo invalid response;
+		exit 3;;
 
     esac
-
-done
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 ## Get Ingress URL
