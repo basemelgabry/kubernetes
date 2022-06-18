@@ -26,7 +26,7 @@ done
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 
 ## Create EKS cluster
-eksctl create cluster --name basclustera --node-type t2.large --nodes 3 --nodes-min 3 --nodes-max 5 --region us-east-1 --zones=us-east-1a,us-east-1b,us-east-1d
+eksctl create cluster --name BasClusterC --node-type t2.large --nodes 3 --nodes-min 3 --nodes-max 5 --region us-east-1 --zones=us-east-1a,us-east-1b,us-east-1d
 sleep 30
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
@@ -47,7 +47,7 @@ done
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 
 ## Get EKS Cluster service
-eksctl get cluster --name basclustera --region us-east-1
+eksctl get cluster --name BasClusterC --region us-east-1
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
@@ -69,7 +69,7 @@ done
 
 
 ## Create IAM OIDC provider
-eksctl utils associate-iam-oidc-provider --region us-east-1 --cluster basclustera --approve
+eksctl utils associate-iam-oidc-provider --region us-east-1 --cluster BasClusterC --approve
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
@@ -113,7 +113,7 @@ done
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 
 ## Create a IAM role and ServiceAccount
-eksctl create iamserviceaccount --cluster basclustera --namespace kube-system --name aws-load-balancer-controller --attach-policy-arn arn:aws:iam::411218437052:policy/AWSLoadBalancerControllerIAMPolicy --override-existing-serviceaccounts --approve
+eksctl create iamserviceaccount --cluster BasClusterC --namespace kube-system --name aws-load-balancer-controller --attach-policy-arn arn:aws:iam::411218437052:policy/AWSLoadBalancerControllerIAMPolicy --override-existing-serviceaccounts --approve
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
@@ -193,8 +193,8 @@ done
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 ## Configure AWS ALB (Apllication Load Balancer) to sit infront of Ingress
-#helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=basclustera --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller --set image.tag="v2.2.0"
-helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=basclustera --set serviceAccount.create=false --set region=us-east-1 --set serviceAccount.name=aws-load-balancer-controller
+#helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=BasClusterC --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller --set image.tag="v2.2.0"
+helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=BasClusterC --set serviceAccount.create=false --set region=us-east-1 --set serviceAccount.name=aws-load-balancer-controller
 
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
 #*#*#*#*#*#*#========================#*#*#*#*#*#*#
