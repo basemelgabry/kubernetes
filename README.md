@@ -13,3 +13,14 @@ eksctl delete cluster --name <prod>
 eksctl delete cluster --name eksingressdemo --region us-east-1 --wait
 ### Delete Status
 https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks?filteringStatus=active&filteringText=&viewNested=true&hideStacks=false
+  
+#########################
+  
+# Deregistering a cluster
+  eksctl deregister cluster --name
+To clean up the resources on your Kubernetes cluster.
+
+Delete the Amazon EKS Connector YAML file from your Kubernetes cluster.
+
+kubectl delete -f eks-connector.yaml
+
