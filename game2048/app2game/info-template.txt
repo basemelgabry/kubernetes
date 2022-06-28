@@ -1,0 +1,143 @@
+PS C:\Users\Me\Desktop\EC2\Kubernetes\helm286> helm template .\app2game\
+---
+# Source: app2game/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: demo2
+  labels:
+    helm.sh/chart: app2game-0.1.0
+    app.kubernetes.io/name: demo2
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: app2game/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo2
+#  namespaces:           # test add NameSpace
+  labels:
+    helm.sh/chart: app2game-0.1.0
+    app.kubernetes.io/name: demo2
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: demo2
+    app.kubernetes.io/instance: release-name
+---
+# Source: app2game/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo2   #output "release-name-app2game"
+  labels:
+    helm.sh/chart: app2game-0.1.0
+    app.kubernetes.io/name: demo2
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+ # namespaces:           # test add NameSpace
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: demo2
+      app.kubernetes.io/instance: release-name
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: demo2
+        app.kubernetes.io/instance: release-name
+    spec:
+      serviceAccountName: demo2
+      securityContext:
+        {}
+      containers:
+        - name: app2game
+          securityContext:
+            {}
+          image: "alexwhen/docker-2048"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          resources:
+            {}
+---
+# Source: app2game/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo2
+#  namespaces:           # test add NameSpace
+  labels:
+    helm.sh/chart: app2game-0.1.0
+    app.kubernetes.io/name: demo2
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: instance
+    kubernetes.io/ingress.class: alb
+spec:
+  rules:
+    - host:
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: demo2
+                port:
+                  number: 80
+---
+# Source: app2game/templates/namespace.yaml
+# kind: Namespace
+# apiVersion: v1
+# metadata:
+#   name: gamens #
+#   labels:
+#     name: gamens #
+---
+# Source: app2game/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "demo2-test-connection"
+  labels:
+    helm.sh/chart: app2game-0.1.0
+    app.kubernetes.io/name: demo2
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['demo2:80']
+  restartPolicy: Never
