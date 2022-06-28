@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "app2game.fullname" . }}
+#  namespaces: {{ .Values.namespace }}          # test add NameSpace
+  labels:
+    {{- include "app2game.labels" . | nindent 4 }}
+
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "app2game.selectorLabels" . | nindent 4 }}
