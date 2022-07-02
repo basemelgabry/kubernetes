@@ -30,7 +30,7 @@ Hi Bro,
     
 > helm uninstall demo1 ./dem1o/ -n demo1
 
-======================================================
+####################==========############========
 
 #2 - To Deployment Game 2048 app in localhost
 
