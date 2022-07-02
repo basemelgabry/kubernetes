@@ -2,10 +2,10 @@ Hi Bro,
 # ## Localhost k8s-and-helm
 # kubernetes apps CLI heml Terraform
 
-GIT Branch : 
+# GIT Branch : 
     > git clone -b  localhost-k8s-and-helm https://github.com/basemelgabry/kubernetes.git
    > cd kubernetes
-Create NameSpace:   > kubectl create ns demo1    > kubectl create ns demo2
+# Create NameSpace:   > kubectl create ns demo1    > kubectl create ns demo2
 
 #1 - To Deployment Nginx app in localhost
 
