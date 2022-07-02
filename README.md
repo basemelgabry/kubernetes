@@ -9,24 +9,24 @@ Hi Bro,
 
 #1 - To Deployment Nginx app in localhost
 
-    # insttaltion 
+# insttaltion 
     
 > helm install demo1 ./demo1/ -n demo1
 
 
-    # browsing  
+# browsing  
     
 > http://localhost   
     
-    # Upgrade 
+# Upgrade 
     
 > helm upgrade --install demo1 ./demo1/ -n demo1
     
-    # Over right
+ # Over right
     
 > Helm upgrade --install --set ingress.name=ingresstest demo1 .\demo1\ -n demo1
     
-    # uninstall app
+# uninstall app
     
 > helm uninstall demo1 ./dem1o/ -n demo1
 
@@ -34,19 +34,19 @@ Hi Bro,
 
 #2 - To Deployment Game 2048 app in localhost
 
-    # insttaltion
+# insttaltion
    
 > helm install demo2 ./demo2/ -n demo2    # browsing      http://localhost:9010/
    
-    # Upgrade
+# Upgrade
    
 > helm upgrade --install demo2./demo2/ -n demo2
    
-    # Over right
+# Over right
    
 > Helm upgrade --install --set ingress.name=ingresstest demo2 .\demo2\ -n demo2
     
-    # uninstall app
+# uninstall app
    
 > helm uninstall demo2 ./demo2/ -ndemo2
 
