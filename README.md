@@ -12,8 +12,11 @@ Hi Bro,
     # insttaltion 
     
 > helm install demo1 ./demo1/ -n demo1
+> 
     # browsing  
-    http://localhost    
+    
+> http://localhost   
+    
     # Upgrade 
     
 > helm upgrade --install demo1 ./demo1/ -n demo1
@@ -27,6 +30,7 @@ Hi Bro,
 > helm uninstall demo1 ./dem1o/ -n demo1
 
 ======================================================
+
 #2 - To Deployment Game 2048 app in localhost
 
     # insttaltion
