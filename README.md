@@ -12,7 +12,8 @@ Hi Bro,
     # insttaltion 
     
 > helm install demo1 ./demo1/ -n demo1
-> 
+
+
     # browsing  
     
 > http://localhost   
